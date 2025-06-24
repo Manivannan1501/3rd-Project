@@ -170,6 +170,7 @@ elif page == "📊 Visualizations":
         ax.set_ylabel('Frequency', fontsize=12)
         ax.grid(True, alpha=0.3)
         plt.tight_layout()
+        st.pyplot(fig)
         return fig
 
     def smoker_count_chart(ax):
