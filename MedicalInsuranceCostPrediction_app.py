@@ -211,7 +211,7 @@ elif page == "📊 Visualizations":
         region_counts = df['region'].map(region_map).value_counts()
         region_counts = region_counts.sort_index()
 
-    # Create bars with custom color per region
+        # Create bars with custom color per region
         bars = []
         for region in region_counts.index:
             bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
@@ -221,12 +221,11 @@ elif page == "📊 Visualizations":
         ax.set_ylabel('Count')
         ax.tick_params(axis='x', rotation=45)
 
-    # Add value labels
+        # Add value labels
         for region, bar in zip(region_counts.index, bars):
             height = bar[0].get_height()
             ax.text(bar[0].get_x() + bar[0].get_width()/2., height + 5,
                     f'{int(height)}', ha='center', va='bottom')
-
 
     def charges_vs_age_chart(ax):
         # Separate smokers and non-smokers
