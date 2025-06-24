@@ -200,18 +200,22 @@ elif page == "📊 Visualizations":
         ax.grid(True, alpha=0.3)
 
     def region_chart(ax):
-        region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
         region_colors = {
-            'Northeast': '#1f77b4',   # Blue
-            'Southeast': '#ff7f0e',   # Orange
-            'Southwest': '#2ca02c',   # Green
-            'Northwest': '#d62728'    # Red
-        }
+            'Northeast': '#1f77b4',
+            'Southeast': '#ff7f0e',
+            'Southwest': '#2ca02c',
+            'Northwest': '#d62728'
+       }
 
-        region_counts = df['region'].map(region_map).value_counts()
-        region_counts = region_counts.sort_index()
+        # Detect and convert numeric regions if needed
+        if df['region'].dtype in ['int64', 'float64']:
+            region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
+            regions = df['region'].map(region_map)
+        else:
+            regions = df['region']
 
-        # Create bars with custom color per region
+        region_counts = regions.value_counts().sort_index()
+
         bars = []
         for region in region_counts.index:
             bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
@@ -221,11 +225,10 @@ elif page == "📊 Visualizations":
         ax.set_ylabel('Count')
         ax.tick_params(axis='x', rotation=45)
 
-        # Add value labels
         for region, bar in zip(region_counts.index, bars):
             height = bar[0].get_height()
-            ax.text(bar[0].get_x() + bar[0].get_width()/2., height + 5,
-                    f'{int(height)}', ha='center', va='bottom')
+            ax.text(bar[0].get_x() + bar[0].get_width()/2., height + 1, f'{int(height)}', ha='center', va='bottom')
+
 
     def charges_vs_age_chart(ax):
         # Separate smokers and non-smokers
