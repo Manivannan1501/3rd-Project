@@ -199,23 +199,34 @@ elif page == "📊 Visualizations":
         ax.legend()
         ax.grid(True, alpha=0.3)
 
-    def region_chart(ax):
-        region_colors = {
-            'Northeast': '#1f77b4',
-            'Southeast': '#ff7f0e',
-            'Southwest': '#2ca02c',
-            'Northwest': '#d62728'
-       }
+    # Region mapping
+    region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
+    region_colors = {
+        'Northeast': '#1f77b4',
+        'Southeast': '#ff7f0e',
+        'Southwest': '#2ca02c',
+        'Northwest': '#d62728'
+    }
 
-        # Detect and convert numeric regions if needed
-        if df['region'].dtype in ['int64', 'float64']:
-            region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
-            regions = df['region'].map(region_map)
-        else:
-            regions = df['region']
+    # Convert numeric regions if needed
+    if df['region'].dtype in ['int64', 'float64']:
+        df['region'] = df['region'].map(region_map)
 
-        region_counts = regions.value_counts().sort_index()
+    # Dropdown to filter
+    region_options = ["All"] + sorted(df['region'].dropna().unique().tolist())
+    selected_region = st.selectbox("Select a Region:", options=region_options)
 
+    # Filter the DataFrame
+    if selected_region != "All":
+        df_filtered = df[df['region'] == selected_region]
+    else:
+        df_filtered = df
+
+    # Plot function
+    def region_chart(data):
+        fig, ax = plt.subplots()
+
+        region_counts = data['region'].value_counts().sort_index()
         bars = []
         for region in region_counts.index:
             bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
@@ -227,9 +238,14 @@ elif page == "📊 Visualizations":
 
         for region, bar in zip(region_counts.index, bars):
             height = bar[0].get_height()
-            ax.text(bar[0].get_x() + bar[0].get_width()/2., height + 1, f'{int(height)}', ha='center', va='bottom')
+            ax.text(bar[0].get_x() + bar[0].get_width() / 2., height + 1, f'{int(height)}',
+                    ha='center', va='bottom')
 
+        return fig
 
+    # Draw chart
+    fig = region_chart(df_filtered)
+    st.pyplot(fig)
     def charges_vs_age_chart(ax):
         # Separate smokers and non-smokers
         non_smokers = df[df['smoker'] == 0]
