@@ -202,6 +202,7 @@ elif page == "📊 Visualizations":
     def region_chart(ax):
         region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
         region_counts = df['region'].map(region_map).value_counts()
+        region_counts = region_counts.sort_index()
         
         colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
         bars = ax.bar(region_counts.index, region_counts.values, 
