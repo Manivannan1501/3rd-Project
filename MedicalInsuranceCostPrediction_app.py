@@ -308,11 +308,12 @@ elif page == "📊 Visualizations":
         ax.set_title('Feature Correlations', fontsize=14, fontweight='bold')
         plt.colorbar(im, ax=ax, shrink=0.8)
         
-   def create_matplotlib_chart(plot_func, title, height=500):
-       import matplotlib.pyplot as plt
-       fig, ax = plt.subplots(figsize=(12, 6))
-       plot_func(ax)
-       st.pyplot(fig)
+def create_matplotlib_chart(plot_func, title, height=500):
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(12, 6))
+    plot_func(ax)
+    st.pyplot(fig)
+
 
 
 
