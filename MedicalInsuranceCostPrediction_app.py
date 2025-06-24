@@ -201,21 +201,32 @@ elif page == "📊 Visualizations":
 
     def region_chart(ax):
         region_map = {0: 'Northeast', 1: 'Southeast', 2: 'Southwest', 3: 'Northwest'}
+        region_colors = {
+            'Northeast': '#1f77b4',   # Blue
+            'Southeast': '#ff7f0e',   # Orange
+            'Southwest': '#2ca02c',   # Green
+            'Northwest': '#d62728'    # Red
+        }
+
         region_counts = df['region'].map(region_map).value_counts()
         region_counts = region_counts.sort_index()
-        
-        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
-        bars = ax.bar(region_counts.index, region_counts.values, 
-                     color=colors[:len(region_counts)], alpha=0.8)
+
+    # Create bars with custom color per region
+        bars = []
+        for region in region_counts.index:
+            bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
+            bars.append(bar)
+
         ax.set_title('Policyholders by Region', fontsize=14, fontweight='bold')
         ax.set_ylabel('Count')
         ax.tick_params(axis='x', rotation=45)
-        
-        # Add value labels
-        for bar in bars:
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2., height + 5,
-                   f'{int(height)}', ha='center', va='bottom')
+
+    # Add value labels
+        for region, bar in zip(region_counts.index, bars):
+            height = bar[0].get_height()
+            ax.text(bar[0].get_x() + bar[0].get_width()/2., height + 5,
+                    f'{int(height)}', ha='center', va='bottom')
+
 
     def charges_vs_age_chart(ax):
         # Separate smokers and non-smokers
