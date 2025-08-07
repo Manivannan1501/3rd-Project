@@ -223,24 +223,22 @@ elif page == "📊 Visualizations":
         df_filtered = df
 
     # Plot function
-    def region_chart(data):
-        fig, ax = plt.subplots()
-
-        region_counts = data['region'].value_counts().sort_index()
+    def region_chart(ax):
+        region_counts = df_filtered['region'].value_counts().sort_index()
         bars = []
-        for region in region_counts.index:
-            bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
-            bars.append(bar)
+    for region in region_counts.index:
+        bar = ax.bar(region, region_counts[region], color=region_colors.get(region, '#333333'), alpha=0.8)
+        bars.append(bar)
 
-        ax.set_title('Policyholders by Region', fontsize=14, fontweight='bold')
-        ax.set_ylabel('Count')
-        ax.tick_params(axis='x', rotation=45)
+    ax.set_title('Policyholders by Region', fontsize=14, fontweight='bold')
+    ax.set_ylabel('Count')
+    ax.tick_params(axis='x', rotation=45)
 
-        for region, bar in zip(region_counts.index, bars):
-            height = bar[0].get_height()
-            ax.text(bar[0].get_x() + bar[0].get_width() / 2., height + 1, f'{int(height)}',
-                    ha='center', va='bottom')
-
+    for region, bar in zip(region_counts.index, bars):
+        height = bar[0].get_height()
+        ax.text(bar[0].get_x() + bar[0].get_width() / 2., height + 1, f'{int(height)}',
+                ha='center', va='bottom')
+        
         return fig
 
     # Draw chart
@@ -464,3 +462,4 @@ elif page == "💰 Cost Prediction":
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 About This App")
 st.sidebar.info("ML-powered insurance cost prediction using demographic and health factors.")
+
