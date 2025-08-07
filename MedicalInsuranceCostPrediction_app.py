@@ -239,7 +239,6 @@ elif page == "📊 Visualizations":
         ax.text(bar[0].get_x() + bar[0].get_width() / 2., height + 1, f'{int(height)}',
                 ha='center', va='bottom')
         
-        return fig
 
     # Draw chart
     fig = region_chart(df_filtered)
@@ -462,4 +461,5 @@ elif page == "💰 Cost Prediction":
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 About This App")
 st.sidebar.info("ML-powered insurance cost prediction using demographic and health factors.")
+
 
