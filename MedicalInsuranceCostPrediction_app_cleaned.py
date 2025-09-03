@@ -352,7 +352,6 @@ elif page == "📊 Visualizations":
         "👥 Age Distribution (Native)": show_age_distribution,
         "🚭 Smokers vs Non-Smokers Count": lambda: create_matplotlib_chart(smoker_count_chart, "Smoker Count"),
         "⚖️ BMI Distribution": lambda: create_matplotlib_chart(bmi_distribution_chart, "BMI Distribution"),
-        "🗺️ Policyholders by Region": lambda: create_matplotlib_chart(region_chart, "Region Chart"),
         "📊 Charges vs Age": lambda: create_matplotlib_chart(charges_vs_age_chart, "Charges vs Age"),
         "💰 Smoker Charges Comparison": lambda: create_matplotlib_chart(smoker_charges_boxplot, "Smoker Charges"),
         "📉 Charges vs BMI": lambda: create_matplotlib_chart(charges_vs_bmi_chart, "Charges vs BMI"),
